@@ -15,8 +15,8 @@ A microservice-based banking platform that allows users to **create accounts** a
 
 ```bash
 git clone https://github.com/Aniruddha-P/pismo-banking.git
-cd pismo-banking
 ```
+
 ```bash
 cd pismo-banking
 ```
