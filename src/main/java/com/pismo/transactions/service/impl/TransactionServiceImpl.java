@@ -11,14 +11,12 @@ import com.pismo.transactions.mapper.TransactionMapper;
 import com.pismo.transactions.respository.TransactionRepository;
 import com.pismo.transactions.service.TransactionService;
 import com.pismo.transactions.validations.TransactionValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
@@ -42,26 +40,26 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionValidator.validateOperationType(transactionDto.getOperationsTypeId(), transactionDto.getAmount());
 
         // Validate if Account accountId exists
-        logger.error("Validating Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto);
+        log.error("Validating Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto);
         AccountValidator.validateAccountIdNonNull(transactionDto.getAccountId());
 
         AccountEntity account = accountRepository.findById(transactionDto.getAccountId())
                 .orElseThrow(() -> {
                     // We can throw an Exception here, to let user know that account with accountId does not exist.
                     // OR without letting the user know that exact cause, just log it, we can return just the empty response(Security purpose)
-                    logger.error("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist.");
+                    log.error("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist.");
                     throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist.");
                 });
 
         try {
             // Save Transaction
-            logger.error("Saving Transaction with Account Id : " + transactionDto.getAccountId() + "\n" + transactionDto);
+            log.error("Saving Transaction with Account Id : " + transactionDto.getAccountId() + "\n" + transactionDto);
             TransactionEntity transactionEntity = TransactionMapper.dtoToEntity(transactionDto);
             transactionEntity = transactionRepository.save(transactionEntity);
             transactionDto.setTransactionId(transactionEntity.getTransactionId());
             return transactionDto;
         } catch (Exception e) {
-            logger.error("Error occurred while saving Transaction : " + transactionDto + "\nError : " + e.getMessage());
+            log.error("Error occurred while saving Transaction : " + transactionDto + "\nError : " + e.getMessage());
             throw new TransactionPersistenceException("Error occurred while saving Transaction : " + transactionDto);
         }
     }

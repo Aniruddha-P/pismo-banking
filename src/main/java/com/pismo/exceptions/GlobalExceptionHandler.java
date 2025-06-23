@@ -1,8 +1,7 @@
 package com.pismo.exceptions;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -28,7 +26,7 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             String field = error.getField();
             String message = error.getDefaultMessage();
-            logger.error("Validation error in field '{}': {}", field, message);
+            log.error("Validation error in field '{}': {}", field, message);
             errors.put(field, message);
         });
 
@@ -38,13 +36,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({AccountNotFoundException.class, InappropriateAmountException.class, OperationNotFoundException.class,
             TransactionNotFoundException.class, AccountIdNotProvidedException.class})
     public ResponseEntity<Map<String, List<String>>> handleCustomException(RuntimeException ex) {
-        logger.error("Error occured while processing the request - " + ex.getMessage());
+        log.error("Error occured while processing the request - " + ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(List.of(ex.getMessage())), new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(RuntimeException ex) {
-        logger.error("Error occured while processing the request - " + ex.getMessage());
+        log.error("Error occured while processing the request - " + ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(List.of(ex.getMessage())), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

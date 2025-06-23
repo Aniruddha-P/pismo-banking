@@ -1,13 +1,12 @@
 package com.pismo.accounts.validations;
 
 import com.pismo.exceptions.AccountIdNotProvidedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
+@Slf4j
 public class AccountValidator {
-    private static final Logger logger = LoggerFactory.getLogger(AccountValidator.class);
 
     /**
      * Validator method to validate if the account id exists.
@@ -17,7 +16,7 @@ public class AccountValidator {
      */
     public static void validateAccountIdNonNull(Long accountId) {
         if (Objects.isNull(accountId)) {
-            logger.error("Account Id missing. Provided : " + accountId);
+            log.error("Account Id missing. Provided : " + accountId);
             throw new AccountIdNotProvidedException("Account Id must be provided");
         }
     }

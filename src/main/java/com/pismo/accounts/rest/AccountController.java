@@ -10,19 +10,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/accounts")
 @Tag(name = "Accounts")
 public class AccountController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AccountService accountService;
 
@@ -66,7 +64,7 @@ public class AccountController {
             })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid AccountDto accountDto) {
-        logger.info("Received request to create account for : " + accountDto);
+        log.info("Received request to create account for : " + accountDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(accountService.createAccount(accountDto));
@@ -116,7 +114,7 @@ public class AccountController {
             })
     @GetMapping(value = "/{accountId}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<AccountDto> getAccount(@PathVariable Long accountId) {
-        logger.info("Received request to fetch details for account with id : " + accountId);
+        log.info("Received request to fetch details for account with id : " + accountId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountService.getAccount(accountId));
