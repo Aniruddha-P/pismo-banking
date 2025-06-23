@@ -4,12 +4,16 @@ import com.pismo.transactions.dto.TransactionDto;
 import com.pismo.transactions.entity.TransactionEntity;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public final class TransactionMapper {
+
+    private static final String EVENT_DATETIME_UTC_STANDARD_ZONE = "UTC";
+
     /**
      * Mapper method to map fields of TransactionDTO to TransactionEntity
      *
@@ -21,7 +25,7 @@ public final class TransactionMapper {
                 .accountId(transactionDto.getAccountId())
                 .operationsTypeId(transactionDto.getOperationsTypeId())
                 .amount(transactionDto.getAmount())
-                .eventDate(LocalDateTime.now())
+                .eventDate(ZonedDateTime.now(ZoneId.of(EVENT_DATETIME_UTC_STANDARD_ZONE)))
                 .build();
     }
 }

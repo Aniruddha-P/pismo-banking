@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,5 +19,5 @@ public class TransactionEntity {
     private Long accountId;
     private int operationsTypeId;
     private BigDecimal amount;
-    private LocalDateTime eventDate;
+    private ZonedDateTime eventDate;
 }
