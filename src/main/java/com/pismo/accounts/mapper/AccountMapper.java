@@ -4,8 +4,6 @@ import com.pismo.accounts.dto.AccountDto;
 import com.pismo.accounts.entity.AccountEntity;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)

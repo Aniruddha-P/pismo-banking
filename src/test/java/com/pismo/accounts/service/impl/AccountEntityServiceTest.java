@@ -4,7 +4,9 @@ import com.pismo.accounts.dto.AccountDto;
 import com.pismo.accounts.entity.AccountEntity;
 import com.pismo.accounts.respository.AccountRepository;
 import com.pismo.accounts.service.AccountService;
+import com.pismo.exceptions.AccountIdNotProvidedException;
 import com.pismo.exceptions.AccountNotFoundException;
+import com.pismo.exceptions.AccountPersistenceException;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,6 +40,16 @@ class AccountEntityServiceTest {
     }
 
     @Test
+    void createAccount_AccountPersistenceIssue() {
+        AccountDto accountDto = AccountDto.builder().documentNumber("12345").build();
+        AccountEntity savedAccountEntity = AccountEntity.builder().accountId(1L).documentNumber("12345").build();
+
+        Mockito.when(accountRepository.save(Mockito.any(AccountEntity.class))).thenThrow(new RuntimeException("DB connection issue!"));
+
+        Assert.assertThrows(AccountPersistenceException.class, () -> accountService.createAccount(accountDto));
+    }
+
+    @Test
     void testGetAccount_Ok() {
         AccountEntity accountEntity = AccountEntity.builder().accountId(1L).documentNumber("12345").build();
 
@@ -53,5 +65,21 @@ class AccountEntityServiceTest {
         Mockito.when(accountRepository.findById(1L)).thenReturn(Optional.empty());
 
         Assert.assertThrows(AccountNotFoundException.class, () -> accountService.getAccount(1L));
+    }
+
+    @Test
+    void testGetAccount_AccountIdNotProvided() {
+        Long emptyAccountId = null;
+        Assert.assertThrows(AccountIdNotProvidedException.class, () -> accountService.getAccount(emptyAccountId));
+    }
+
+    @Test
+    void testGetAccount_AccountPersistenceIssue() {
+        AccountDto accountDto = AccountDto.builder().documentNumber("12345").build();
+        AccountEntity savedAccountEntity = AccountEntity.builder().accountId(1L).documentNumber("12345").build();
+
+        Mockito.when(accountRepository.save(Mockito.any(AccountEntity.class))).thenThrow(new RuntimeException("DB connection issue!"));
+
+        Assert.assertThrows(AccountPersistenceException.class, () -> accountService.createAccount(accountDto));
     }
 }
