@@ -1,2 +1,2 @@
-INSERT INTO account_seq VALUES (1);
-INSERT INTO transaction_seq VALUES (1);
+INSERT INTO accounts_seq VALUES (1);
+INSERT INTO transactions_seq VALUES (1);

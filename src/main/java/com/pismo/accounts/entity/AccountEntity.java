@@ -13,12 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
-@Table(name = "account")
+@Table(name = "accounts")
 public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long accountId;
     private String documentNumber;
-    private LocalDateTime eventDate;
 }

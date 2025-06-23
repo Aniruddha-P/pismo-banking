@@ -21,7 +21,6 @@ public final class AccountMapper {
         return AccountEntity.builder()
                 .accountId(accountDto.getAccountId())
                 .documentNumber(accountDto.getDocumentNumber())
-                .eventDate(LocalDateTime.now())
                 .build();
     }
 

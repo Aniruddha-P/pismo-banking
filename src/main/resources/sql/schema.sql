@@ -1,34 +1,39 @@
-DROP TABLE IF EXISTS transaction_seq;
-DROP TABLE IF EXISTS account_seq;
-DROP TABLE IF EXISTS transaction;
-DROP TABLE IF EXISTS account;
+-- Create the database 'pismo_banking' if it doesn't already exist
+-- and switch the context to use it for subsequent operations.
+CREATE DATABASE IF NOT EXISTS pismo_banking;
+USE pismo_banking;
 
-CREATE TABLE IF NOT EXISTS account(
+-- Drop tables in dependency-safe order
+DROP TABLE IF EXISTS transactions_seq;
+DROP TABLE IF EXISTS accounts_seq;
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS accounts;
 
-  account_id bigint NOT NULL,
-  document_number varchar(255) NOT NULL,
-  event_date datetime(6) DEFAULT NULL,
+-- Accounts table
+CREATE TABLE IF NOT EXISTS accounts (
+  account_id BIGINT NOT NULL,
+  document_number VARCHAR(255) NOT NULL,
   PRIMARY KEY (account_id)
 );
 
-CREATE TABLE IF NOT EXISTS account_seq (
-  next_val bigint DEFAULT NULL
+-- Simulated sequence table for accounts
+CREATE TABLE IF NOT EXISTS accounts_seq (
+  next_val BIGINT DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS transaction (
-  amount decimal(42,2) NOT NULL,
-  operations_type_id int NOT NULL,
-  account_id bigint NOT NULL,
-  event_date datetime(6) DEFAULT NULL,
-  transaction_id bigint NOT NULL,
+-- Transactions table
+CREATE TABLE IF NOT EXISTS transactions (
+  transaction_id BIGINT NOT NULL,
+  amount DECIMAL(18,2) NOT NULL,
+  operations_type_id INT NOT NULL,
+  account_id BIGINT NOT NULL,
+  event_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (transaction_id),
   KEY account_id_idx (account_id),
-  CONSTRAINT account_id FOREIGN KEY (account_id) REFERENCES account (account_id)
+  CONSTRAINT fk_transactions_account_id FOREIGN KEY (account_id) REFERENCES accounts (account_id)
 );
 
-CREATE TABLE IF NOT EXISTS transaction_seq (
-  next_val bigint DEFAULT NULL
+-- Simulated sequence table for transactions
+CREATE TABLE IF NOT EXISTS transactions_seq (
+  next_val BIGINT DEFAULT NULL
 );
-
-
-
