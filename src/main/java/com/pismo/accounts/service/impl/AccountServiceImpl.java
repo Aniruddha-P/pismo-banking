@@ -34,14 +34,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto createAccount(AccountDto accountDto) {
         try {
+            log.info("Saving AccountEntity with Id : " + accountDto.getAccountId() + "\n" + accountDto);
             AccountEntity accountEntity = AccountMapper.dtoToEntity(accountDto);
             accountEntity = accountRepository.save(accountEntity);
             accountDto.setAccountId(accountEntity.getAccountId());
-            log.error("Account saved successfully in DB. \nAccount : " + accountEntity);
+            log.info("Saved AccountEntity with Id : " + accountDto.getAccountId() + " successfully.");
             return accountDto;
         } catch (Exception e) {
-            log.error("Error occured while saving Account : " + accountDto + "\nError : " + e.getMessage());
-            throw new AccountPersistenceException("Error occured while saving Account : " + accountDto);
+            log.error("Error occurred while saving AccountEntity with Id : " + accountDto.getAccountId() + "\nError : " + e.getMessage());
+            throw new AccountPersistenceException("Error occurred while saving AccountEntity with Id : " + accountDto.getAccountId());
         }
     }
 
@@ -56,20 +57,21 @@ public class AccountServiceImpl implements AccountService {
         //Validate accountId
         AccountValidator.validateAccountIdNonNull(accountId);
 
-        Optional<AccountEntity> account;
+        Optional<AccountEntity> accountEntity;
         try {
-            account = accountRepository.findById(accountId);
+            log.info("Fetching AccountEntity with Id : " + accountId);
+            accountEntity = accountRepository.findById(accountId);
         } catch (Exception e) {
-            log.error("Error occured while fetching Account with Id : " + accountId + "\nError : " + e.getMessage());
-            throw new AccountPersistenceException("Error occured while fetching Account with Id : " + accountId);
+            log.error("Error occurred while fetching AccountEntity with Id : " + accountId + "\nError : " + e.getMessage());
+            throw new AccountPersistenceException("Error occurred while fetching AccountEntity with Id : " + accountId);
         }
 
-        if (account.isPresent()) {
-            log.error("Account with Id " + accountId + " fetched successfully. \nAccount : " + account.get());
-            return AccountMapper.entityToDto(account.get());
+        if (accountEntity.isPresent()) {
+            log.info("Fetched AccountEntity with Id " + accountId + " successfully. \nAccountEntity : " + accountEntity.get());
+            return AccountMapper.entityToDto(accountEntity.get());
         } else {
-            log.error("AccountEntity with ID : " + accountId + " does not exist.");
-            throw new AccountNotFoundException("AccountEntity with ID : " + accountId + " does not exist");
+            log.error("AccountEntity with Id : " + accountId + " does not exist");
+            throw new AccountNotFoundException("AccountEntity with Id : " + accountId + " does not exist");
         }
     }
 }

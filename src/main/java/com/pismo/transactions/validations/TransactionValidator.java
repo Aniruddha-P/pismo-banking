@@ -20,25 +20,25 @@ public class TransactionValidator {
      * @throws OperationNotFoundException   If the OperationTypeId is not valid
      */
     public static void validateOperationType(int operationTypeId, BigDecimal amount) {
-        log.info("Validating Operation type with id : " + operationTypeId);
+        log.info("Validating OperationType with Id : " + operationTypeId);
         if (OperationType.isDebitOperationType(operationTypeId)) {
-            log.info("Operation type is Debit with id : " + operationTypeId);
+            log.info("OperationType is Debit with Id : " + operationTypeId);
             // Check if amount is negative else throw exception
             if (amount.signum() != -1) {
-                log.info("For Operation type id : " + operationTypeId + " amount must be negative");
-                throw new InappropriateAmountException("For Operation type id : " + operationTypeId + " amount must be negative");
+                log.error("For OperationType Id : " + operationTypeId + ", amount must be negative");
+                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + " amount must be negative");
             }
             // Check if totalamount - amount >= 0 else throw exception
         } else if (OperationType.isCreditOperationType(operationTypeId)) {
-            log.info("Operation type is Credit with id : " + operationTypeId);
+            log.info("OperationType is Credit with Id : " + operationTypeId);
             // Check if amount is positive else throw exception
             if (amount.signum() != 1) {
-                log.info("For Operation type id : " + operationTypeId + " amount must be positive");
-                throw new InappropriateAmountException("For Operation type id : " + operationTypeId + " amount must be positive");
+                log.error("For OperationType Id : " + operationTypeId + " amount must be positive");
+                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + " amount must be positive");
             }
         } else {
-            log.info("Operation type with Id : " + operationTypeId + " does not exit.");
-            throw new OperationNotFoundException("Operation type with Id : " + operationTypeId + " does not exit.");
+            log.error("OperationYype with Id : " + operationTypeId + " does not exist");
+            throw new OperationNotFoundException("OperationType with Id : " + operationTypeId + " does not exist");
         }
     }
 }

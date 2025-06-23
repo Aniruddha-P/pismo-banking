@@ -36,31 +36,30 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public TransactionDto createTransaction(TransactionDto transactionDto) {
-        // Validate if appropriate operation type exist
+        // Validate if appropriate operation type exists
         TransactionValidator.validateOperationType(transactionDto.getOperationsTypeId(), transactionDto.getAmount());
 
         // Validate if Account accountId exists
-        log.error("Validating Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto);
+        log.info("Validating Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto);
         AccountValidator.validateAccountIdNonNull(transactionDto.getAccountId());
 
         AccountEntity account = accountRepository.findById(transactionDto.getAccountId())
                 .orElseThrow(() -> {
-                    // We can throw an Exception here, to let user know that account with accountId does not exist.
-                    // OR without letting the user know that exact cause, just log it, we can return just the empty response(Security purpose)
-                    log.error("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist.");
-                    throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist.");
+                    log.error("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist");
+                    throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist");
                 });
 
         try {
             // Save Transaction
-            log.error("Saving Transaction with Account Id : " + transactionDto.getAccountId() + "\n" + transactionDto);
+            log.info("Saving TransactionEntity with Account Id : " + transactionDto.getAccountId() + "\n" + transactionDto);
             TransactionEntity transactionEntity = TransactionMapper.dtoToEntity(transactionDto);
             transactionEntity = transactionRepository.save(transactionEntity);
             transactionDto.setTransactionId(transactionEntity.getTransactionId());
+            log.info("Saved TransactionEntity with Account Id : " + transactionDto.getAccountId() + " successfully");
             return transactionDto;
         } catch (Exception e) {
-            log.error("Error occurred while saving Transaction : " + transactionDto + "\nError : " + e.getMessage());
-            throw new TransactionPersistenceException("Error occurred while saving Transaction : " + transactionDto);
+            log.error("Error occurred while saving TransactionEntity with Account Id : " + transactionDto.getAccountId() + "\nError : " + e.getMessage());
+            throw new TransactionPersistenceException("Error occurred while saving TransactionEntity with Account Id : " + transactionDto.getAccountId());
         }
     }
 }
