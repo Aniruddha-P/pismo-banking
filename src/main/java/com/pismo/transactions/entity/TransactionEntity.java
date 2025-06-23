@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Getter
-@Table(name = "TRANSACTION")
+@Table(name = "transaction")
 public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
