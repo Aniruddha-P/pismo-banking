@@ -96,8 +96,9 @@ Access the Postman API collection here:
 
 ## ⚙️ Optimizations
 
-- Integrated **Resilience4j** for API rate limiting
-- Structured exception handling for consistent error responses
+- Integrate **Resilience4j** for API rate limiting and Fault Tolerance patterns
+- Structured exception handling for consistent error responses - Error Codes
+- Integrate **Liquibase/Flyway** automate changes to version-control DB schema changes
 
 ---
 
