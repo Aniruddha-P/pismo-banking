@@ -75,7 +75,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Amount_Missing() {
-        String expectedResponse = "{\"amount\":\"Amount is mandatory\"}";
+        String expectedResponse = "{\"amount\":\"Purchase/Withdrawal Amount is mandatory\"}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);
@@ -138,7 +138,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Amount_Greater_Than_10000() {
-        String expectedResponse = "{\"amount\":\"Purchase/Withdrawal Amount should be less than 10000.00 and max upto 2 decimal points\"}";
+        String expectedResponse = "{\"amount\":\"Purchase/Withdrawal Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points\"}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);

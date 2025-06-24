@@ -6,9 +6,12 @@ import com.pismo.transactions.constant.OperationType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Slf4j
 public class TransactionValidator {
+
+    private static final BigDecimal TRANSACTION_AMOUNT_LIMIT = BigDecimal.valueOf(10000.00);
 
     /**
      * Validator method to validate if the Operation Type and Amount provided by the customer are aligned.
@@ -40,5 +43,22 @@ public class TransactionValidator {
             log.error("OperationYype with Id : " + operationTypeId + " does not exist");
             throw new OperationNotFoundException("OperationType with Id : " + operationTypeId + " does not exist");
         }
+    }
+
+    /**
+     * Validator method to validate if amount is within limit
+     *
+     * @param amount
+     * @throws InappropriateAmountException If amount is off the limits
+     */
+    public static void validateAmountLimit(BigDecimal amount) {
+        log.info("Validating amount for transaction : " + amount);
+        if (BigDecimal.ZERO.compareTo(amount) == 0 ||
+                TRANSACTION_AMOUNT_LIMIT.compareTo(amount) <= 0 ||
+                TRANSACTION_AMOUNT_LIMIT.negate().compareTo(amount) >= 0) {
+            log.error("Amount for transaction off the limit : " + amount);
+            throw new InappropriateAmountException("Purchase/Withdrawal Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points");
+        }
+        log.info("Amount for transaction within limit : " + amount);
     }
 }

@@ -36,6 +36,10 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public TransactionDto createTransaction(TransactionDto transactionDto) {
+
+        // Validate if appropriate amount
+        TransactionValidator.validateAmountLimit(transactionDto.getAmount());
+
         // Validate if appropriate operation type exists
         TransactionValidator.validateOperationType(transactionDto.getOperationsTypeId(), transactionDto.getAmount());
 
