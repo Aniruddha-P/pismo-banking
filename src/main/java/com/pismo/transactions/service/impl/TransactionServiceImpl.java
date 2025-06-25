@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
         AccountEntity account = accountRepository.findById(transactionDto.getAccountId())
                 .orElseThrow(() -> {
                     log.error("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist");
-                    throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction : " + transactionDto + " does not exist");
+                    throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction does not exist");
                 });
 
         try {
@@ -63,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService {
             return transactionDto;
         } catch (Exception e) {
             log.error("Error occurred while saving TransactionEntity with Account Id : " + transactionDto.getAccountId() + "\nError : " + e.getMessage());
-            throw new TransactionPersistenceException("Error occurred while saving TransactionEntity with Account Id : " + transactionDto.getAccountId());
+            throw new TransactionPersistenceException("Error occurred while saving Transaction with Account Id : " + transactionDto.getAccountId());
         }
     }
 }

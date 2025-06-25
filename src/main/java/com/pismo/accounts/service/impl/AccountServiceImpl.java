@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
             return accountDto;
         } catch (Exception e) {
             log.error("Error occurred while saving AccountEntity with Id : " + accountDto.getAccountId() + "\nError : " + e.getMessage());
-            throw new AccountPersistenceException("Error occurred while saving AccountEntity with Id : " + accountDto.getAccountId());
+            throw new AccountPersistenceException("Error occurred while saving Account with Id : " + accountDto.getAccountId());
         }
     }
 
@@ -63,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
             accountEntity = accountRepository.findById(accountId);
         } catch (Exception e) {
             log.error("Error occurred while fetching AccountEntity with Id : " + accountId + "\nError : " + e.getMessage());
-            throw new AccountPersistenceException("Error occurred while fetching AccountEntity with Id : " + accountId);
+            throw new AccountPersistenceException("Error occurred while fetching Account with Id : " + accountId);
         }
 
         if (accountEntity.isPresent()) {
@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
             return AccountMapper.entityToDto(accountEntity.get());
         } else {
             log.error("AccountEntity with Id : " + accountId + " does not exist");
-            throw new AccountNotFoundException("AccountEntity with Id : " + accountId + " does not exist");
+            throw new AccountNotFoundException("Account with Id : " + accountId + " does not exist");
         }
     }
 }

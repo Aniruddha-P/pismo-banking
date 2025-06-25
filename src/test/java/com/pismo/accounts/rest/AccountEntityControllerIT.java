@@ -67,7 +67,7 @@ class AccountEntityControllerIT {
 
     @Test
     public void testCreateAccount_AccountId_Already_Provided() {
-        String documentNumberMissingResponse = "{\"accountId\":\"Bad request - AccountEntity Id cannot be pre-selected\"}";
+        String documentNumberMissingResponse = "{\"accountId\":\"Account Id cannot be pre-selected\"}";
         Long alreadyProvidedAccoutId = 123456L;
 
         AccountDto accountDto = AccountDto.builder().accountId(alreadyProvidedAccoutId).documentNumber("123456").build();
@@ -109,7 +109,7 @@ class AccountEntityControllerIT {
                 createURLWithPort("/accounts/{accountId}"),
                 HttpMethod.GET, entity, String.class, Collections.singletonMap("accountId", missingAccountId));
 
-        String expectedResponse = "{\"errors\":[\"AccountEntity with Id : 9223372036854775807 does not exist\"]}";
+        String expectedResponse = "{\"errors\":[\"Account with Id : 9223372036854775807 does not exist\"]}";
 
         Assert.assertEquals(HttpStatusCode.valueOf(422), response.getStatusCode());
         Assert.assertNotNull(response.getBody());

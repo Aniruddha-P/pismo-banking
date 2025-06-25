@@ -54,7 +54,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_AccountId_Not_Found() {
-        String expectedResponse = "{\"errors\":[\"Account with Id : 9223372036854775807 mentioned in Transaction : TransactionDto(transactionId=null, accountId=9223372036854775807, operationsTypeId=4, amount=1) does not exist\"]}";
+        String expectedResponse = "{\"errors\":[\"Account with Id : 9223372036854775807 mentioned in Transaction does not exist\"]}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);
@@ -75,7 +75,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Amount_Missing() {
-        String expectedResponse = "{\"amount\":\"Purchase/Withdrawal Amount is mandatory\"}";
+        String expectedResponse = "{\"amount\":\"Amount is mandatory\"}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);
@@ -96,7 +96,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Invalid_OperationType() {
-        String expectedResponse = "{\"operationsTypeId\":\"Operations Type Id is mandatory. Possible values 1,2,3,4\"}";
+        String expectedResponse = "{\"operationsTypeId\":\"OperationType Id is mandatory. Possible values 1,2,3,4\"}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);
@@ -117,7 +117,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Invalid_Amount_For_Valid_OperationType() {
-        String expectedResponse = "{\"errors\":[\"For OperationType Id : 3 amount must be negative\"]}";
+        String expectedResponse = "{\"errors\":[\"For OperationType Id : 3, amount must be negative\"]}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);
@@ -138,7 +138,7 @@ public class TransactionEntityControllerIT {
 
     @Test
     public void addTransaction_Amount_Greater_Than_10000() {
-        String expectedResponse = "{\"amount\":\"Purchase/Withdrawal Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points\"}";
+        String expectedResponse = "{\"amount\":\"Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points\"}";
         //Creating transaction related accountEntity
         AccountEntity accountEntity = AccountEntity.builder().documentNumber("123456").build();
         this.accountRepository.save(accountEntity);

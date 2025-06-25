@@ -12,7 +12,7 @@ import lombok.Data;
 public class AccountDto {
 
     @Schema(hidden = true)
-    @Null(message = "Bad request - AccountEntity Id cannot be pre-selected")
+    @Null(message = "Account Id cannot be pre-selected")
     private Long accountId;
 
     @Schema(type = "string", requiredMode = Schema.RequiredMode.REQUIRED, description = "Document number", example = "12345678900")

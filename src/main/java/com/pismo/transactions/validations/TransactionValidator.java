@@ -29,18 +29,18 @@ public class TransactionValidator {
             // Check if amount is negative else throw exception
             if (amount.signum() != -1) {
                 log.error("For OperationType Id : " + operationTypeId + ", amount must be negative");
-                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + " amount must be negative");
+                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + ", amount must be negative");
             }
             // Check if totalamount - amount >= 0 else throw exception
         } else if (OperationType.isCreditOperationType(operationTypeId)) {
             log.info("OperationType is Credit with Id : " + operationTypeId);
             // Check if amount is positive else throw exception
             if (amount.signum() != 1) {
-                log.error("For OperationType Id : " + operationTypeId + " amount must be positive");
-                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + " amount must be positive");
+                log.error("For OperationType Id : " + operationTypeId + ", amount must be positive");
+                throw new InappropriateAmountException("For OperationType Id : " + operationTypeId + ", amount must be positive");
             }
         } else {
-            log.error("OperationYype with Id : " + operationTypeId + " does not exist");
+            log.error("OperationType with Id : " + operationTypeId + " does not exist");
             throw new OperationNotFoundException("OperationType with Id : " + operationTypeId + " does not exist");
         }
     }
@@ -57,7 +57,7 @@ public class TransactionValidator {
                 TRANSACTION_AMOUNT_LIMIT.compareTo(amount) <= 0 ||
                 TRANSACTION_AMOUNT_LIMIT.negate().compareTo(amount) >= 0) {
             log.error("Amount for transaction off the limit : " + amount);
-            throw new InappropriateAmountException("Purchase/Withdrawal Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points");
+            throw new InappropriateAmountException("Amount must not be 0 and must be less than 10000.00 and max upto 2 decimal points");
         }
         log.info("Amount for transaction within limit : " + amount);
     }
