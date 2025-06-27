@@ -1,15 +1,14 @@
 package com.pismo.accounts.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Table(name = "accounts")
 public class AccountEntity {
@@ -18,4 +17,6 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long accountId;
     private String documentNumber;
+    private BigDecimal balance;
+    private BigDecimal overdraftLimit = new BigDecimal(1000).negate(); //Default value
 }

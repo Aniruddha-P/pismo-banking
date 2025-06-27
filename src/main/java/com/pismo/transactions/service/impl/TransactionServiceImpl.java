@@ -4,6 +4,7 @@ import com.pismo.accounts.entity.AccountEntity;
 import com.pismo.accounts.respository.AccountRepository;
 import com.pismo.accounts.validations.AccountValidator;
 import com.pismo.exceptions.AccountNotFoundException;
+import com.pismo.exceptions.InsufficientAccountBalanceException;
 import com.pismo.exceptions.TransactionPersistenceException;
 import com.pismo.transactions.dto.TransactionDto;
 import com.pismo.transactions.entity.TransactionEntity;
@@ -13,6 +14,10 @@ import com.pismo.transactions.service.TransactionService;
 import com.pismo.transactions.validations.TransactionValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 @Slf4j
 @Service
@@ -35,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return TransactionDto - Successfully created Transaction with transactionId
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public TransactionDto createTransaction(TransactionDto transactionDto) {
 
         // Validate if appropriate amount
@@ -53,7 +59,18 @@ public class TransactionServiceImpl implements TransactionService {
                     throw new AccountNotFoundException("Account with Id : " + transactionDto.getAccountId() + " mentioned in Transaction does not exist");
                 });
 
+        // Validate Account balance and Overdraft limit
+        BigDecimal existingBalance = account.getBalance();
+        BigDecimal newBalance = existingBalance.add(transactionDto.getAmount());
+        TransactionValidator.validateOverDraftLimit(transactionDto, account);
+
         try {
+            // Set new Account balance
+            AccountEntity accountEntityWithUpdatedBalance = account.toBuilder().balance(newBalance).build();
+
+            // Save Account
+            accountRepository.save(accountEntityWithUpdatedBalance);
+
             // Save Transaction
             log.info("Saving TransactionEntity with Account Id : " + transactionDto.getAccountId() + "\n" + transactionDto);
             TransactionEntity transactionEntity = TransactionMapper.dtoToEntity(transactionDto);

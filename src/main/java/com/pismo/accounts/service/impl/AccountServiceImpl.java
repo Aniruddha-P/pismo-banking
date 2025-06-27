@@ -38,6 +38,7 @@ public class AccountServiceImpl implements AccountService {
             AccountEntity accountEntity = AccountMapper.dtoToEntity(accountDto);
             accountEntity = accountRepository.save(accountEntity);
             accountDto.setAccountId(accountEntity.getAccountId());
+            accountDto.setBalance(accountEntity.getBalance());
             log.info("Saved AccountEntity with Id : " + accountDto.getAccountId() + " successfully.");
             return accountDto;
         } catch (Exception e) {

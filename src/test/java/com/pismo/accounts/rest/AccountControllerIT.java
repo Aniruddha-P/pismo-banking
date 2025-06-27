@@ -30,7 +30,7 @@ class AccountControllerIT {
 
     @Test
     public void testCreateAccount_Ok() {
-        String expectedResponse = "{\"accountId\":1,\"documentNumber\":\"123456\"}";
+        String expectedResponse = "{\"accountId\":1,\"documentNumber\":\"123456\",\"balance\":0}";
 
         AccountDto accountDto = AccountDto.builder().documentNumber("123456").build();
 

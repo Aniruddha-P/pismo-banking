@@ -34,7 +34,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({AccountNotFoundException.class, InappropriateAmountException.class, OperationNotFoundException.class,
-            TransactionNotFoundException.class, AccountIdNotProvidedException.class})
+            TransactionNotFoundException.class, AccountIdNotProvidedException.class, InsufficientAccountBalanceException.class,
+            OverdraftLimitReachedException.class})
     public ResponseEntity<Map<String, List<String>>> handleCustomException(RuntimeException ex) {
         log.error("Error occured while processing the request - " + ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(List.of(ex.getMessage())), new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -18,4 +20,9 @@ public class AccountDto {
     @Schema(type = "string", requiredMode = Schema.RequiredMode.REQUIRED, description = "Document number", example = "12345678900")
     @NotBlank(message = "Document number is mandatory")
     private String documentNumber;
+
+
+    @Schema(hidden = true)
+    @Null(message = "Balance cannot be pre-selected")
+    private BigDecimal balance;
 }

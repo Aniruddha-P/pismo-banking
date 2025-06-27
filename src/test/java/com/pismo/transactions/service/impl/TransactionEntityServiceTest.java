@@ -38,7 +38,7 @@ public class TransactionEntityServiceTest {
 
     @Test
     void testCreateTransaction_Ok() {
-        AccountEntity accountEntity = AccountEntity.builder().accountId(1L).documentNumber("12345").build();
+        AccountEntity accountEntity = AccountEntity.builder().accountId(1L).documentNumber("12345").balance(BigDecimal.ZERO).build();
         TransactionDto transactionDto = TransactionDto.builder().accountId(1L).amount(BigDecimal.ONE).operationsTypeId(4).build();
         TransactionEntity transactionEntity = TransactionEntity.builder().accountId(1L).amount(BigDecimal.ONE).operationsTypeId(4).build();
         TransactionEntity savedtransaction = TransactionEntity.builder().transactionId(1L).accountId(1L).amount(BigDecimal.ONE).operationsTypeId(4).build();

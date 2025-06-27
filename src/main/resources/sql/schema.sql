@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS accounts;
 CREATE TABLE IF NOT EXISTS accounts (
   account_id BIGINT NOT NULL,
   document_number VARCHAR(255) NOT NULL,
+  balance DECIMAL(18,2) NOT NULL,
+  overdraft_limit DECIMAL(18,2) NOT NULL,
   PRIMARY KEY (account_id)
 );
 
