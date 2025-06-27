@@ -19,7 +19,7 @@ import org.springframework.http.*;
 import java.math.BigDecimal;
 
 @SpringBootTest(classes = PismoBankingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TransactionEntityControllerIT {
+public class TransactionControllerIT {
 
     TestRestTemplate restTemplate = new TestRestTemplate();
     HttpHeaders headers = new HttpHeaders();

@@ -17,7 +17,7 @@ import org.springframework.http.*;
 import java.util.Collections;
 
 @SpringBootTest(classes = PismoBankingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AccountEntityControllerIT {
+class AccountControllerIT {
 
     TestRestTemplate restTemplate = new TestRestTemplate();
     HttpHeaders headers = new HttpHeaders();
