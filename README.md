@@ -97,6 +97,7 @@ Access the Postman API collection here:
 ## ⚙️ Optimizations
 
 - Integrate **Resilience4j** for API rate limiting and Fault Tolerance patterns
+- Integrate **Mapped Diagnostic Context - MDC** for enhanced request tracing and logging context
 - Structured exception handling for consistent error responses - Error Codes
 - Integrate **Liquibase/Flyway** automate changes to version-control DB schema changes
 
